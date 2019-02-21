@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const smorts = require('./smorts.js')
+const _ = require('lodash')
 
 const app = express()
 
@@ -16,7 +17,8 @@ app.post('/start', (request, response) => {
 
   // Response data
   const data = {
-    color: '#000000',
+    color: '#F0F0F0',
+    secondary_color: '#bfff00'
   }
 
   return response.json(data)
@@ -25,7 +27,7 @@ app.post('/start', (request, response) => {
 // Handle POST request to '/move'
 app.post('/move', (request, response) => {
   // NOTE: Do something here to generate your move
-  console.log(JSON.stringify(request.body, null, 4))
+  // console.log(JSON.stringify(request.body, null, 4))
   const body = request.body
   const board = body.board
 
@@ -35,13 +37,23 @@ app.post('/move', (request, response) => {
   const mySnake = body.you
   const health  = mySnake.health
   const myBody  = mySnake.body
+  const head = myBody[0]
+
+  console.log("BODY: " + JSON.stringify(myBody))
+
+  let moveOptions = [{x: head.x, y: head.y + 1}, {x: head.x, y: head.y - 1}, {x: head.x + 1, y: head.y}, {x: head.x - 1, y: head.y}]
+
+  moveOptions = smorts.removeOOB(smorts.posDiff(moveOptions, myBody), boardWidth, boardHeight)
+
+  console.log(">>>>>>>>")
+  console.log(moveOptions)
 
   let my_move = 'up';
 
-  if(smorts.wallDanger(myBody[0], boardWidth, boardHeight)) {
-    console.log("DANGER")
-    my_move = 'left'
-  }
+  console.log("Current head: " + JSON.stringify(head))
+  console.log("Moving to: " + JSON.stringify(moveOptions[0]))
+
+  my_move = smorts.whatDir(head, moveOptions[0])
 
   // Response data
   const data = {
