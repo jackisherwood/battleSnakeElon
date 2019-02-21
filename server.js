@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser')
 const express = require('express')
+const smorts = require('./smorts.js')
 
 const app = express()
 
@@ -15,7 +16,7 @@ app.post('/start', (request, response) => {
 
   // Response data
   const data = {
-    color: '#DFFF00',
+    color: '#000000',
   }
 
   return response.json(data)
@@ -24,10 +25,27 @@ app.post('/start', (request, response) => {
 // Handle POST request to '/move'
 app.post('/move', (request, response) => {
   // NOTE: Do something here to generate your move
+  console.log(JSON.stringify(request.body, null, 4))
+  const body = request.body
+  const board = body.board
+
+  const boardHeight = board.height
+  const boardWidth = board.width
+
+  const mySnake = body.you
+  const health  = mySnake.health
+  const myBody  = mySnake.body
+
+  let my_move = 'up';
+
+  if(smorts.wallDanger(myBody[0], boardWidth, boardHeight)) {
+    console.log("DANGER")
+    my_move = 'left'
+  }
 
   // Response data
   const data = {
-    move: 'up', // one of: ['up','down','left','right']
+    move: my_move, // one of: ['up','down','left','right']
   }
 
   return response.json(data)
