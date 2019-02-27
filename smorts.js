@@ -26,7 +26,7 @@ function whatDir(head, next) {
   }
 }
 
-function distToFood(x, y, currPos){
+function distToFood(x, y, currPos){//calls with x position, and y position of food and head position
   const xVal = Math.abs(currPos.x - x);
   const yVal = Math.abs(currPos.y - y);
 
