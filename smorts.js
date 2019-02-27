@@ -26,4 +26,13 @@ function whatDir(head, next) {
   }
 }
 
+function distToFood(x, y, currPos){
+  const xVal = Math.abs(currPos.x - x);
+  const yVal = Math.abs(currPos.y - y);
+
+  return Math.sqrt( Math.pow(xVal, 2) + Math.pow(yVal, 2));
+}
+
+
+
 module.exports = { wallDanger, posDiff, removeOOB, whatDir }
