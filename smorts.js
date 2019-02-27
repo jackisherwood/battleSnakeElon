@@ -30,7 +30,8 @@ function distToFood(x, y, currPos){//calls with x position, and y position of fo
   const xVal = Math.abs(currPos.x - x);
   const yVal = Math.abs(currPos.y - y);
 
-  return Math.sqrt( Math.pow(xVal, 2) + Math.pow(yVal, 2));
+  //return Math.sqrt( Math.pow(xVal, 2) + Math.pow(yVal, 2));
+  return xVal + yVal;
 }
 
 
