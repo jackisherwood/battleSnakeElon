@@ -26,12 +26,25 @@ function whatDir(head, next) {
   }
 }
 
-function distToFood(x, y, currPos){//calls with x position, and y position of food and head position
-  const xVal = Math.abs(currPos.x - x);
-  const yVal = Math.abs(currPos.y - y);
+function distToFood(x, y, currPos) {//calls with x position, and y position of food and head position
+  const xVal = Math.abs(currPos.x - x)
+  const yVal = Math.abs(currPos.y - y)
 
   //return Math.sqrt( Math.pow(xVal, 2) + Math.pow(yVal, 2));
-  return xVal + yVal;
+  return xVal + yVal
+}
+
+function smallestDistIndex(currPos, foodArr) {//calls with current position and food array
+  let minLength = 100000
+  let indx = 0
+  for(let i=0; i<foodArr.length; i++) {
+    let n = distToFood(foodArr[i].x, foodArr[i].x, currPos) 
+    if( n < minLength){
+      minLength = n
+      indx = i
+    }
+  }
+  return i
 }
 
 
