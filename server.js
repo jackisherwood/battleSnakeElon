@@ -67,21 +67,29 @@ app.post('/move', (request, response) => {
     let sorted = _.sortBy(moveOptions, distToFood)
     my_move = smorts.whatDir(head, sorted[0])
   } else {
-
     let current_dir = smorts.getCurrentDir(head, myBody[1])
-
     let dirFromHead = _.partial(smorts.whatDir, head)
-    let possibleDirs = _.map(moveOptions, dirFromHead)
+    
+    const distToTail = _.partial(smorts.absPointDifference, _.last(myBody))
+    let sorted = _.sortBy(moveOptions, distToTail, (x) => {
+      let possDir = dirFromHead(x)
+      return possDir != current_dir ? 1 : -1
+    })
 
-    let rightTurn = smorts.rightTurn(current_dir)
+    my_move = smorts.whatDir(head, sorted[0] || _.last(myBody))
+    // let possibleDirs = _.map(sorted, dirFromHead)
 
-    if(_.includes(possibleDirs, rightTurn)) {
-      my_move = rightTurn
-    } else if (_.includes(possibleDirs, current_dir)) {
-      my_move = current_dir
-    } else {
-      my_move = possibleDirs[0]
-    }
+    // let rightTurn = smorts.rightTurn(current_dir)
+
+    // if(_.includes(possibleDirs, rightTurn)) {
+    //   my_move = rightTurn
+    // } else if (_.includes(possibleDirs, current_dir)) {
+    //   my_move = current_dir
+    // } else {
+    //   my_move = possibleDirs[0]
+    // }
+
+
   }
 
   // Response data

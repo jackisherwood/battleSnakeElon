@@ -100,4 +100,4 @@ function leftTurn(currentDir) {
 
 module.exports = { wallDanger, posDiff, removeOOB, whatDir, 
                    smallestDistance, getCurrentDir, rightTurn,
-                   smallestPyDist, getHungry }
+                   smallestPyDist, getHungry, absPointDifference }
