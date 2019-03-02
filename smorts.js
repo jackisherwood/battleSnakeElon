@@ -48,6 +48,18 @@ function whatDir(head, next) {
   }
 }
 
+function getHungry(food) {
+  let hungryMod = 40 - (food.length * 4)
+
+  if(hungryMod < 0) {
+    hungryMod = 0
+  } else if (hungryMod > 40) {
+    hungryMod = 40
+  }
+
+  return 50 + hungryMod
+}
+
 function getCurrentDir(head, prev) {
   let xDir = head.x - prev.x
   let yDir = head.y - prev.y
@@ -88,4 +100,4 @@ function leftTurn(currentDir) {
 
 module.exports = { wallDanger, posDiff, removeOOB, whatDir, 
                    smallestDistance, getCurrentDir, rightTurn,
-                   smallestPyDist }
+                   smallestPyDist, getHungry }
