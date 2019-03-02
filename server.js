@@ -17,8 +17,10 @@ app.post('/start', (request, response) => {
 
   // Response data
   const data = {
-    color: '#babe11',
-    secondary_color: '#bfff00'
+    color:   '#000000',   //'#ADDe86',
+    secondary_color: '#f4f4f4',
+    headType: 'beluga',
+    tailType: 'pixel'
   }
 
   return response.json(data)
@@ -39,19 +41,31 @@ app.post('/move', (request, response) => {
   const health  = mySnake.health
   const myBody  = mySnake.body
   const head = myBody[0]
-  const snekParts = _.flatten(_.map(board.snakes, (x) => x.body))
+  const allSnakes = _.flatten(_.map(board.snakes, (x) => x.body))
+  const snekParts = smorts.posDiff(allSnakes, myBody)
 
   let moveOptions = [{x: head.x, y: head.y + 1}, {x: head.x, y: head.y - 1}, {x: head.x + 1, y: head.y}, {x: head.x - 1, y: head.y}]
 
-  moveOptions = smorts.removeOOB(smorts.posDiff(moveOptions, snekParts), boardWidth, boardHeight)
+  moveOptions = smorts.removeOOB(smorts.posDiff(moveOptions, allSnakes), boardWidth, boardHeight)
+  
 
+  const headToSnek = smorts.smallestDistance(head, snekParts)
   let my_move = 'up';
 
-  if (health <= 50) {
+  if (health <= 60) {
     const distToFood = _.partialRight(smorts.smallestDistance, boardFood)
     let sorted = _.sortBy(moveOptions, distToFood)
     my_move = smorts.whatDir(head, sorted[0])
-  } else {
+  } else if(headToSnek <= 3) {
+    const distToSnek = _.partialRight(smorts.smallestPyDist, snekParts)
+    let new_sorted = _.reverse(_.sortBy(moveOptions, distToSnek))
+    
+    console.log("UNSORT: " + JSON.stringify(moveOptions))
+    console.log("SORTED OPTS: " + JSON.stringify(new_sorted))
+    
+    my_move = smorts.whatDir(head, new_sorted[0])
+  }else {
+
     let current_dir = smorts.getCurrentDir(head, myBody[1])
 
     let dirFromHead = _.partial(smorts.whatDir, head)

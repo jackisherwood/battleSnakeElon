@@ -20,6 +20,19 @@ function absPointDifference(point1, point2) {
   return Math.abs(point1.x - point2.x) + Math.abs(point1.y - point2.y)
 }
 
+function pyDiff(point1, point2) {
+  return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2))
+}
+
+function smallestPyDist(point, pointArray) {
+  const headDifference = _.partial(pyDiff, point)
+  console.log("dists: " + JSON.stringify(_.map(pointArray, (x) => pyDiff(point, x))))
+  console.log("points: " + JSON.stringify(pointArray))
+
+  let min = _.min(_.map(pointArray, headDifference))
+  return min
+}
+
 function smallestDistance(point, pointArray) {
   const headDifference = _.partial(absPointDifference, point)
   let min = _.min(_.map(pointArray, headDifference))
@@ -64,4 +77,18 @@ function rightTurn(currentDir) {
   return "up"
 }
 
-module.exports = { wallDanger, posDiff, removeOOB, whatDir, smallestDistance, getCurrentDir, rightTurn }
+function leftTurn(currentDir) {
+  if(currentDir == "up") {
+    return "left"
+  } else if (currentDir == "right") {
+    return "up"
+  } else if (currentDir == "down") {
+    return "right"
+  }
+
+  return "down"
+}
+
+module.exports = { wallDanger, posDiff, removeOOB, whatDir, 
+                   smallestDistance, getCurrentDir, rightTurn,
+                   smallestPyDist }
