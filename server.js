@@ -40,7 +40,7 @@ app.post('/move', (request, response) => {
   const myBody  = mySnake.body
   const head = myBody[0]
 
-  console.log("BODY: " + JSON.stringify(myBody))
+  // console.log("BODY: " + JSON.stringify(myBody))
 
   let moveOptions = [{x: head.x, y: head.y + 1}, {x: head.x, y: head.y - 1}, {x: head.x + 1, y: head.y}, {x: head.x - 1, y: head.y}]
 
@@ -48,9 +48,9 @@ app.post('/move', (request, response) => {
 
   let my_move = 'up';
 
-  sorted = _.sortBy(moveOptions, (x) => smorts.findFood(x, boardFood))
-
-  if (health <= 50) { 
+  if (health <= 50) {
+    const distToFood = _.partialRight(smorts.smallestDistance, boardFood)
+    let sorted = _.sortBy(moveOptions, distToFood)
     my_move = smorts.whatDir(head, sorted[0])
   } else {
     my_move = smorts.whatDir(head, moveOptions[0])
