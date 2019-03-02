@@ -40,11 +40,13 @@ app.post('/move', (request, response) => {
   const myBody  = mySnake.body
   const head = myBody[0]
 
+  const snekParts = _.flatten(_.map(board.snakes, (x) => x.body))
+
   // console.log("BODY: " + JSON.stringify(myBody))
 
   let moveOptions = [{x: head.x, y: head.y + 1}, {x: head.x, y: head.y - 1}, {x: head.x + 1, y: head.y}, {x: head.x - 1, y: head.y}]
 
-  moveOptions = smorts.removeOOB(smorts.posDiff(moveOptions, myBody), boardWidth, boardHeight)
+  moveOptions = smorts.removeOOB(smorts.posDiff(moveOptions, snekParts), boardWidth, boardHeight)
 
   let my_move = 'up';
 
@@ -53,6 +55,7 @@ app.post('/move', (request, response) => {
     let sorted = _.sortBy(moveOptions, distToFood)
     my_move = smorts.whatDir(head, sorted[0])
   } else {
+    let sorted = _.sortBy(moveOptions)
     my_move = smorts.whatDir(head, moveOptions[0])
   }
 

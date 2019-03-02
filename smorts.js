@@ -16,7 +16,6 @@ function removeOOB(arr, width, height) {
   })
 }
 
-
 function absPointDifference(point1, point2) {
   return Math.abs(point1.x - point2.x) + Math.abs(point1.y - point2.y)
 }
