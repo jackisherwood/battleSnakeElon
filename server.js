@@ -11,6 +11,10 @@ app.set('port', (process.env.PORT || 3000))
 
 app.use(bodyParser.json())
 
+app.get('/', (req, res) => {
+	res.json({status: 1})
+})
+
 // Handle POST request to '/start'
 app.post('/start', (request, response) => {
   // NOTE: Do something here to start the game
