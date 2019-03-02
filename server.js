@@ -57,10 +57,11 @@ app.post('/move', (request, response) => {
   let my_move = 'up';
 
   const hungry = smorts.getHungry(boardFood)
+  const distToTail = _.partial(smorts.absPointDifference, _.last(myBody))
 
   if(headToSnek <= 3) {
     const distToSnek = _.partialRight(smorts.smallestPyDist, snekParts)
-    let new_sorted = _.reverse(_.sortBy(moveOptions, distToSnek))
+    let new_sorted = _.reverse(_.sortBy(moveOptions, distToSnek, (x) => -1 * distToTail(x)))
     my_move = smorts.whatDir(head, new_sorted[0])
   } else if (health <= hungry && boardFood.length > 0) {
     const distToFood = _.partialRight(smorts.smallestDistance, boardFood)
@@ -70,7 +71,6 @@ app.post('/move', (request, response) => {
     let current_dir = smorts.getCurrentDir(head, myBody[1])
     let dirFromHead = _.partial(smorts.whatDir, head)
     
-    const distToTail = _.partial(smorts.absPointDifference, _.last(myBody))
     let sorted = _.sortBy(moveOptions, distToTail, (x) => {
       let possDir = dirFromHead(x)
       return possDir != current_dir ? 1 : -1
