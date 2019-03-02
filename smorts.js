@@ -26,9 +26,6 @@ function pyDiff(point1, point2) {
 
 function smallestPyDist(point, pointArray) {
   const headDifference = _.partial(pyDiff, point)
-  console.log("dists: " + JSON.stringify(_.map(pointArray, (x) => pyDiff(point, x))))
-  console.log("points: " + JSON.stringify(pointArray))
-
   let min = _.min(_.map(pointArray, headDifference))
   return min
 }

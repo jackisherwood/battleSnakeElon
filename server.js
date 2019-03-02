@@ -63,10 +63,6 @@ app.post('/move', (request, response) => {
   } else if(headToSnek <= 3) {
     const distToSnek = _.partialRight(smorts.smallestPyDist, snekParts)
     let new_sorted = _.reverse(_.sortBy(moveOptions, distToSnek))
-    
-    console.log("UNSORT: " + JSON.stringify(moveOptions))
-    console.log("SORTED OPTS: " + JSON.stringify(new_sorted))
-    
     my_move = smorts.whatDir(head, new_sorted[0])
   }else {
 
