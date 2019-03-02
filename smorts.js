@@ -38,4 +38,30 @@ function whatDir(head, next) {
   }
 }
 
-module.exports = { wallDanger, posDiff, removeOOB, whatDir, smallestDistance }
+function getCurrentDir(head, prev) {
+  let xDir = head.x - prev.x
+  let yDir = head.y - prev.y
+  if(xDir < 0) {
+    return "left"
+  } else if(xDir > 0) {
+    return "right"
+  } else if(yDir < 0) {
+    return "up"
+  } else {
+    return "down"
+  }
+}
+
+function rightTurn(currentDir) {
+  if(currentDir == "up") {
+    return "right"
+  } else if (currentDir == "right") {
+    return "down"
+  } else if (currentDir == "down") {
+    return "left"
+  }
+
+  return "up"
+}
+
+module.exports = { wallDanger, posDiff, removeOOB, whatDir, smallestDistance, getCurrentDir, rightTurn }
