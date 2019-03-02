@@ -1,4 +1,4 @@
-const _ = require('lodash')
+require('lodash')
 
 function wallDanger(head, width, height) {
   return head.x == 0 || head.x == width - 1 || head.y == 0 || head.y == height - 1 
@@ -14,6 +14,19 @@ function removeOOB(arr, width, height) {
   })
 }
 
+function findFood(head, food) {
+  distance = 69
+  for (x in food) {
+    xpos = Math.abs(head.x - food[x].x)
+    ypos = Math.abs(head.y - food[x].y)
+    //change to distance if you want
+    foodToHead = xpos + ypos
+  } if (foodToHead < distance) {
+    distance = foodToHead
+  }
+  return distance
+}
+
 function whatDir(head, next) {
   if(next.x > head.x) {
     return 'right'
@@ -26,27 +39,4 @@ function whatDir(head, next) {
   }
 }
 
-function distToFood(x, y, currPos) {//calls with x position, and y position of food and head position
-  const xVal = Math.abs(currPos.x - x)
-  const yVal = Math.abs(currPos.y - y)
-
-  //return Math.sqrt( Math.pow(xVal, 2) + Math.pow(yVal, 2));
-  return xVal + yVal
-}
-
-function smallestDistIndex(currPos, foodArr) {//calls with current position and food array
-  let minLength = 100000
-  let indx = 0
-  for(let i=0; i<foodArr.length; i++) {
-    let n = distToFood(foodArr[i].x, foodArr[i].x, currPos) 
-    if( n < minLength){
-      minLength = n
-      indx = i
-    }
-  }
-  return i
-}
-
-
-
-module.exports = { wallDanger, posDiff, removeOOB, whatDir }
+module.exports = { wallDanger, posDiff, removeOOB, whatDir, findFood }

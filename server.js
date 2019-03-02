@@ -17,7 +17,7 @@ app.post('/start', (request, response) => {
 
   // Response data
   const data = {
-    color: '#F0F0F0',
+    color: '#babe11',
     secondary_color: '#bfff00'
   }
 
@@ -33,6 +33,7 @@ app.post('/move', (request, response) => {
 
   const boardHeight = board.height
   const boardWidth = board.width
+  const boardFood = board.food
 
   const mySnake = body.you
   const health  = mySnake.health
@@ -45,15 +46,15 @@ app.post('/move', (request, response) => {
 
   moveOptions = smorts.removeOOB(smorts.posDiff(moveOptions, myBody), boardWidth, boardHeight)
 
-  console.log(">>>>>>>>")
-  console.log(moveOptions)
-
   let my_move = 'up';
 
-  console.log("Current head: " + JSON.stringify(head))
-  console.log("Moving to: " + JSON.stringify(moveOptions[0]))
+  sorted = _.sortBy(moveOptions, (x) => smorts.findFood(x, boardFood))
 
-  my_move = smorts.whatDir(head, moveOptions[0])
+  if (health <= 50) { 
+    my_move = smorts.whatDir(head, sorted[0])
+  } else {
+    my_move = smorts.whatDir(head, moveOptions[0])
+  }
 
   // Response data
   const data = {
@@ -76,3 +77,4 @@ app.post('/ping', (request, response) => {
 app.listen(app.get('port'), () => {
   console.log('Server listening on port %s', app.get('port'))
 })
+
