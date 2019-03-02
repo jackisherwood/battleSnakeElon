@@ -56,15 +56,15 @@ app.post('/move', (request, response) => {
   const headToSnek = smorts.smallestDistance(head, snekParts)
   let my_move = 'up';
 
-  if (health <= 60) {
-    const distToFood = _.partialRight(smorts.smallestDistance, boardFood)
-    let sorted = _.sortBy(moveOptions, distToFood)
-    my_move = smorts.whatDir(head, sorted[0])
-  } else if(headToSnek <= 3) {
+  if(headToSnek <= 3) {
     const distToSnek = _.partialRight(smorts.smallestPyDist, snekParts)
     let new_sorted = _.reverse(_.sortBy(moveOptions, distToSnek))
     my_move = smorts.whatDir(head, new_sorted[0])
-  }else {
+  } else if (health <= 60) {
+    const distToFood = _.partialRight(smorts.smallestDistance, boardFood)
+    let sorted = _.sortBy(moveOptions, distToFood)
+    my_move = smorts.whatDir(head, sorted[0])
+  } else {
 
     let current_dir = smorts.getCurrentDir(head, myBody[1])
 
