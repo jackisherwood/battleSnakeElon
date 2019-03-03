@@ -1,9 +1,5 @@
 const _ = require('lodash')
 
-function wallDanger(head, width, height) {
-  return head.x == 0 || head.x == width - 1 || head.y == 0 || head.y == height - 1 
-}
-
 function posDiff(arr1, arr2) {
   return _.differenceWith(arr1, arr2, (x,y) => {
     return x.x === y.x && x.y === y.y 
@@ -74,30 +70,33 @@ function getCurrentDir(head, prev) {
   }
 }
 
-function rightTurn(currentDir) {
-  if(currentDir == "up") {
-    return "right"
-  } else if (currentDir == "right") {
-    return "down"
-  } else if (currentDir == "down") {
-    return "left"
-  }
+function collisionAvoider(moveOptions, snekParts, myBody, head) {
+  const distToSnek = _.partialRight(smallestPyDist, snekParts)
+  const distToTail = _.partial(absPointDifference, _.last(myBody))
+  const sorted = _.reverse(_.sortBy(moveOptions, distToSnek, (x) => -1 * distToTail(x)))
 
-  return "up"
+  return whatDir(head, sorted[0])
 }
 
-function leftTurn(currentDir) {
-  if(currentDir == "up") {
-    return "left"
-  } else if (currentDir == "right") {
-    return "up"
-  } else if (currentDir == "down") {
-    return "right"
-  }
+function tailChaser(moveOptions, myBody, head) {
+  const current_dir = getCurrentDir(head, myBody[1])
+  const distToTail = _.partial(absPointDifference, _.last(myBody))
+  const sorted = _.sortBy(moveOptions, distToTail, (x) => whatDir(head, x) != current_dir ? 1 : -1)
 
-  return "down"
+  return whatDir(head, sorted[0] || _.last(myBody))
 }
 
-module.exports = { wallDanger, posDiff, removeOOB, whatDir, 
-                   smallestDistance, getCurrentDir, rightTurn,
-                   smallestPyDist, getHungry, absPointDifference }
+function foodSeeker(moveOptions, boardFood, head) {
+  const distToFood = _.partialRight(smallestDistance, boardFood)
+  const sorted = _.sortBy(moveOptions, distToFood)
+
+  return whatDir(head, sorted[0])
+}
+
+function getMoveOptions(allSnakes, head, width, height) {
+  const genOptions = [{x: head.x, y: head.y + 1}, {x: head.x, y: head.y - 1}, {x: head.x + 1, y: head.y}, {x: head.x - 1, y: head.y}]
+  return removeOOB(posDiff(genOptions, allSnakes), width, height)
+}
+
+module.exports = { posDiff, smallestDistance, getHungry,
+                   tailChaser, foodSeeker, collisionAvoider, getMoveOptions }
