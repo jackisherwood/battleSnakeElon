@@ -67,7 +67,7 @@ Server listening on port 3000
 Now Elon is up and running!
 
 ## **Conclusion**
-We all learned different things from this experience, and we cannot deny we were all nervous when our snake had it's first match. We will return next year (2020) and hopefully put more time into it.
+We all learned different things from this experience. None of us can deny that we were all nervous when our snake had it's first match. We will return next year (2020) and hopefully put more time into it.
 
 
 ##### Contributors:
