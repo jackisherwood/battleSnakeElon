@@ -67,7 +67,6 @@ app.post('/end', (request, response) => {
 })
 
 app.post('/ping', (request, response) => {
-  // Used for checking if this snake is still alive.
   return response.json({});
 })
 
