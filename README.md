@@ -37,7 +37,7 @@ smorts.js is the file where all the functions are located. We have the 3 main be
 Not much is needed to run this snake (not sure why you would want to).\
 Run a git clone:
 ```bash
-git clone https://github.com/jackisherwood/battleSnek.git
+git clone https://github.com/jackisherwood/battleSnakeElon.git
 ```
 
 \
