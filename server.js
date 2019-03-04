@@ -45,11 +45,11 @@ app.post('/move', (request, response) => {
 
   let my_move = 'up';
 
-  if(headToSnek <= 3) {
+  if(headToSnek <= 3) { //scared state
     my_move = smorts.collisionAvoider(moveOptions, snekParts, myBody, head)
-  } else if (health <= hungry && food.length > 0) {
+  } else if (health <= hungry && food.length > 0) { //hungry state
     my_move = smorts.foodSeeker(moveOptions, food, head)
-  } else {
+  } else { //wimpy state
     my_move = smorts.tailChaser(moveOptions, myBody, head)
   }
 
