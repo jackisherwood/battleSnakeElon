@@ -43,7 +43,6 @@ app.post('/move', (request, response) => {
   }, {})
   // console.log(JSON.stringify(snakeObj, null, 4))
   const snekParts = smorts.posDiff(allSnakes, myBody)
-  
   let moveOptions = smorts.getMoveOptions(allSnakes, head, board.width, board.height)
 
   // Floodfill
@@ -65,6 +64,10 @@ app.post('/move', (request, response) => {
     my_move = smorts.foodSeeker(moveOptions, food, head)
   } else { //wimpy state
     my_move = smorts.tailChaser(moveOptions, myBody, head)
+  }
+
+  if(moveOptions.length == 0) {
+    my_move = smorts.whatDir(head, _.last(myBody))
   }
 
   // Response data

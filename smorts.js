@@ -99,4 +99,4 @@ function getMoveOptions(allSnakes, head, width, height) {
 }
 
 module.exports = { posDiff, smallestDistance, getHungry,
-                   tailChaser, foodSeeker, collisionAvoider, getMoveOptions }
+                   tailChaser, foodSeeker, collisionAvoider, getMoveOptions, whatDir }
