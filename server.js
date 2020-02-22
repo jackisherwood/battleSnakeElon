@@ -2,9 +2,10 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const smorts = require('./smorts.js')
 const _ = require('lodash')
+const flooder = require('./lib/floodFill.js')
 
 const app = express()
-app.set('port', (process.env.PORT || 3000))
+app.set('port', (process.env.PORT || 8080))
 
 app.use(bodyParser.json())
 
@@ -36,11 +37,20 @@ app.post('/move', (request, response) => {
   const head = myBody[0]
 
   const allSnakes = _.flatten(_.map(board.snakes, (x) => x.body))
+  const snakeObj = _.reduce(allSnakes, (acc, x) => {
+    acc[`${x.x},${x.y}`] = true
+    return acc
+  }, {})
+  // console.log(JSON.stringify(snakeObj, null, 4))
   const snekParts = smorts.posDiff(allSnakes, myBody)
   
-  const moveOptions = smorts.getMoveOptions(allSnakes, head, board.width, board.height)
+  let moveOptions = smorts.getMoveOptions(allSnakes, head, board.width, board.height)
 
   // TODO: Filter moveOptions for dead ends
+  let newMoveOptions = _.filter(moveOptions, (x) => flooder.floodFrom(board.width, board.height, snakeObj, myBody.length,  x) >= myBody.length + 1)
+  if (newMoveOptions.length > 0) {
+    moveOptions = newMoveOptions
+  }
 
   const headToSnek = smorts.smallestDistance(head, snekParts)
   const hungry = smorts.getHungry(food)
