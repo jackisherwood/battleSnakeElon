@@ -36,7 +36,7 @@ app.post('/move', (request, response) => {
   const myBody  = body.you.body
   const head = myBody[0]
 
-  const allSnakes = smorts.posDiff(_.flatten(_.map(board.snakes, (x) => x.body)), [_.last(myBody)])
+  const allSnakes = _.flatten(_.map(board.snakes, (x) => x.body))
   const snakeObj = _.reduce(allSnakes, (acc, x) => {
     acc[`${x.x},${x.y}`] = true
     return acc
@@ -64,6 +64,10 @@ app.post('/move', (request, response) => {
     my_move = smorts.foodSeeker(moveOptions, food, head)
   } else { //wimpy state
     my_move = smorts.tailChaser(moveOptions, myBody, head)
+  }
+
+  if(moveOptions.length == 0) {
+    my_move = smorts.whatDir(head, _.last(myBody))
   }
 
   // Response data
