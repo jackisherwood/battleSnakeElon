@@ -73,7 +73,7 @@ function getCurrentDir(head, prev) {
 function collisionAvoider(moveOptions, snekParts, myBody, head) {
   const distToSnek = _.partialRight(smallestPyDist, snekParts)
   const distToTail = _.partial(absPointDifference, _.last(myBody))
-  const sorted = _.reverse(_.sortBy(moveOptions, distToSnek, (x) => -1 * distToTail(x)))
+  const sorted = _.reverse(_.sortBy(moveOptions, distToSnek, (x) => distToTail(x)))
 
   return whatDir(head, sorted[0])
 }
