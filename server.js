@@ -40,6 +40,8 @@ app.post('/move', (request, response) => {
   
   const moveOptions = smorts.getMoveOptions(allSnakes, head, board.width, board.height)
 
+  // TODO: Filter moveOptions for dead ends
+
   const headToSnek = smorts.smallestDistance(head, snekParts)
   const hungry = smorts.getHungry(food)
 
