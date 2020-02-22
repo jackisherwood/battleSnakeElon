@@ -29,6 +29,7 @@ app.post('/start', (request, response) => {
 // Handle POST request to '/move'
 app.post('/move', (request, response) => {
   const body = request.body
+  // console.log(`TURN: ${body.turn} ====================`)
   const board = body.board
   const food = board.food
 
@@ -41,20 +42,25 @@ app.post('/move', (request, response) => {
     acc[`${x.x},${x.y}`] = true
     return acc
   }, {})
-  // console.log(JSON.stringify(snakeObj, null, 4))
+
   const snekParts = smorts.posDiff(allSnakes, myBody)
   let moveOptions = smorts.getMoveOptions(allSnakes, head, board.width, board.height)
 
-  // Floodfill
-  let newMoveOptions = _.filter(moveOptions, (x) => flooder.floodFrom(board.width, board.height, snakeObj, myBody.length,  x) >= myBody.length + 1)
+  // Floodfill to avoid dead ends
+  let newMoveOptions = _.filter(moveOptions, (x) => flooder.floodFrom(board.width, board.height, snakeObj, myBody.length + 5,  x) >= myBody.length + 5)
   if (newMoveOptions.length > 0) {
     moveOptions = newMoveOptions
+  } else {
+    moveOptions = [_.sortBy(moveOptions, (x) => flooder.floodFrom(board.width, board.height, snakeObj, myBody.length,  x) * -1)[0]]
   }
 
   // TODO: Be scared of enemy heads
+  // TODO: Avoid board edges
 
   const headToSnek = smorts.smallestDistance(head, snekParts)
   const hungry = smorts.getHungry(food)
+  // const hungry = 70
+
 
   let my_move = 'up';
 
