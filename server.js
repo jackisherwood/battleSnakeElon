@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 app.post('/start', (request, response) => {
   // Response data
   const data = {
-    color:   '#5B4A15',
+    color:   '#A5FBFF',
     secondary_color: '#f4f4f4',
     headType: 'beluga',
     tailType: 'pixel'
