@@ -46,11 +46,13 @@ app.post('/move', (request, response) => {
   
   let moveOptions = smorts.getMoveOptions(allSnakes, head, board.width, board.height)
 
-  // TODO: Filter moveOptions for dead ends
+  // Floodfill
   let newMoveOptions = _.filter(moveOptions, (x) => flooder.floodFrom(board.width, board.height, snakeObj, myBody.length,  x) >= myBody.length + 1)
   if (newMoveOptions.length > 0) {
     moveOptions = newMoveOptions
   }
+
+  // TODO: Be scared of enemy heads
 
   const headToSnek = smorts.smallestDistance(head, snekParts)
   const hungry = smorts.getHungry(food)
