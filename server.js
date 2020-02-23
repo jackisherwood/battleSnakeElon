@@ -59,7 +59,7 @@ app.post('/move', (request, response) => {
   // TODO: Avoid board edges
 
   const headToSnek = smorts.smallestDistance(head, snekParts)
-  const hungry = turn < 10 ? 0 : smorts.getHungry(food)
+  const hungry = turn < 10 ? 200 : smorts.getHungry(food)
   // const hungry = 70
 
 
