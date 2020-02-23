@@ -30,6 +30,7 @@ app.post('/start', (request, response) => {
 app.post('/move', (request, response) => {
   const body = request.body
   // console.log(`TURN: ${body.turn} ====================`)
+  const turn = body.turn
   const board = body.board
   const food = board.food
 
@@ -58,7 +59,7 @@ app.post('/move', (request, response) => {
   // TODO: Avoid board edges
 
   const headToSnek = smorts.smallestDistance(head, snekParts)
-  const hungry = smorts.getHungry(food)
+  const hungry = turn < 10 ? 0 : smorts.getHungry(food)
   // const hungry = 70
 
 
