@@ -57,6 +57,7 @@ app.post('/move', (request, response) => {
 
   // TODO: Be scared of enemy heads
   // TODO: Avoid board edges
+  // TODO: Currently elon won't eat when scared... https://play.battlesnake.com/g/c525981e-0749-4a07-a359-49bb6b3574d7/
 
   const headToSnek = smorts.smallestDistance(head, snekParts)
   const hungry = turn < 10 ? 200 : smorts.getHungry(food)
